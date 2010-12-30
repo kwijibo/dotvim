@@ -135,7 +135,7 @@ set number
 set guifont=Monaco:h14
 
 filetype plugin on
-au FileType php set omnifunc=phpcomplete#CompletePHP
+" au FileType php set omnifunc=phpcomplete#CompletePHP
 au FileType php set dictionary=~/.vim/syntax/php/php-dictionary.txt
 au FileType php set makeprg=php\ -l\ %
 au FileType php set errorformat=%m\ in\ %f\ on\ line\ %l
@@ -143,7 +143,7 @@ au FileType php set errorformat=%m\ in\ %f\ on\ line\ %l
 let php_sql_query=1                                                                                        
 let php_htmlInStrings=1
 
-:set tags=~/.vim/mytags/puelia
+"set tags=~/.vim/mytags/puelia
 
 
 " Source the vimrc file after saving it
