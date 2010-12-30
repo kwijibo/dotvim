@@ -1,3 +1,30 @@
+
+function! Smart_TabComplete()
+  let line = getline('.')                         " curline
+  let substr = strpart(line, -1, col('.')+1)      " from start to cursor
+  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+  if (strlen(substr)==0)                          " nothing to match on empty string
+    return "\<tab>"
+  endif
+  let has_period = match(substr, '\.') != -1      " position of period, if any
+  let has_slash = match(substr, '\/') != -1       " position of slash, if any
+  if (!has_period && !has_slash)
+    return "\<C-X>\<C-P>"                         " existing text matching
+  elseif ( has_slash )
+    return "\<C-X>\<C-F>"                         " file matching
+  else
+    return "\<C-X>\<C-O>"                         " plugin matching
+  endif
+endfunction
+
+inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+
+
+
 " An example for a vimrc file.
 " "
 " " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -109,8 +136,13 @@ set guifont=Monaco:h14
 
 filetype plugin on
 au FileType php set omnifunc=phpcomplete#CompletePHP
+au FileType php set dictionary=~/.vim/syntax/php/php-dictionary.txt
+au FileType php set makeprg=php\ -l\ %
+au FileType php set errorformat=%m\ in\ %f\ on\ line\ %l
+
 let php_sql_query=1                                                                                        
 let php_htmlInStrings=1
+
 :set tags=~/.vim/mytags/puelia
 
 
@@ -119,3 +151,6 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
+
+let g:PreviewBrowsers='firefox -no-remote -new-window,links'
+au FileType mkd set makeprg=bluecloth %
